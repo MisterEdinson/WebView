@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/pbStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -18,25 +18,39 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <WebView
-        android:id="@+id/webView"
+        android:id="@+id/wvMain"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="24dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+
+        app:layout_constraintBottom_toTopOf="@+id/pbStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/pbMain"
         style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_x="179dp"
         android:layout_y="282dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/pbStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/webView" />
+        app:layout_constraintTop_toTopOf="@+id/wvMain" />
+
+    <LinearLayout
+        android:id="@+id/containerIds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wvMain"
+        tools:layout_editor_absoluteY="627dp">
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
