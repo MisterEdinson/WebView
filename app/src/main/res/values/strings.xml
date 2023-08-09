@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WebView</string>
+    <string name="btn_start">Start</string>
+    <string name="textview">TextView</string>
 </resources>
