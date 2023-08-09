@@ -4,16 +4,16 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginBottom
 import com.example.webview.databinding.ActivityMainBinding
 import com.example.webview.ui.home.SavedIds
+import com.example.webview.ui.home.invisible
+import com.example.webview.ui.home.visible
 import com.example.webview.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,37 +33,37 @@ class MainActivity : AppCompatActivity() {
         binding.wvMain.settings.javaScriptEnabled = true
         binding.wvMain.webViewClient = client
 
-        keyId = pref.read("id")
-        keyUuid = pref.read("uuid")
+        readKey()
 
-        if(keyId != null){
-            binding.tvID.visibility = View.VISIBLE
-            binding.tvID.text = "id = $keyId"
-            binding.tvUuid.visibility = View.VISIBLE
-            binding.tvUuid.text = "uuid = $keyUuid"
-        }else{
-            binding.tvID.visibility = View.GONE
-            binding.tvUuid.visibility = View.GONE
-        }
-
-        binding.btnStart.setOnClickListener {
-            binding.btnStart.visibility = View.INVISIBLE
-            binding.wvMain.loadUrl(Constants.URL)
+        binding.apply {
+            btnStart.setOnClickListener {
+                btnStart.invisible()
+                wvMain.loadUrl(Constants.URL)
+            }
         }
     }
 
-    private val client = object : WebViewClient(){
+    private fun readKey() {
+        keyId = pref.read(Constants.ID)
+        keyUuid = pref.read(Constants.UUID)
+
+        binding.tvID.text = getString(R.string.str_id_show, keyId)
+        binding.tvUuid.text = getString(R.string.str_uuid_show, keyUuid)
+    }
+
+    private val client = object : WebViewClient() {
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
-            binding.progressLoad.visibility = View.VISIBLE
+            binding.progressLoad.visible()
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            binding.progressLoad.visibility = View.INVISIBLE
-            binding.btnStart.visibility = View.GONE
-            binding.wvMain.visibility = View.VISIBLE
-
+            binding.apply {
+                progressLoad.invisible()
+                btnStart.invisible()
+                wvMain.visible()
+            }
         }
 
         override fun onReceivedError(
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             super.onReceivedError(view, request, error)
             Toast.makeText(
                 binding.root.context,
-                "Page error: ${error?.description}",
+                getString(R.string.str_error_show, error?.description),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -86,19 +86,16 @@ class MainActivity : AppCompatActivity() {
         ): Boolean {
             val uri = Uri.parse(request?.url.toString())
 
-            keyId = uri.getQueryParameter("id")
-            keyUuid = uri.getQueryParameter("uuid")
-            pref.saved("id",keyId)
-            pref.saved("uuid",keyUuid)
+            keyId = uri.getQueryParameter(Constants.ID)
+            keyUuid = uri.getQueryParameter(Constants.UUID)
+            pref.saved(Constants.ID, keyId)
+            pref.saved(Constants.UUID, keyUuid)
 
-            if(keyId != null || keyUuid != null){
-                binding.tvID.text = "id = $keyId"
-                binding.tvUuid.text = "uuid = $keyUuid"
-                binding.tvID.visibility = View.VISIBLE
-                binding.tvUuid.visibility = View.VISIBLE
-            }else{
-                binding.tvID.visibility = View.GONE
-                binding.tvUuid.visibility = View.GONE
+            binding.apply {
+                tvID.text = getString(R.string.str_id_show, keyId)
+                tvUuid.text = getString(R.string.str_uuid_show, keyUuid)
+                tvID.visible()
+                tvUuid.visible()
             }
 
             return super.shouldOverrideUrlLoading(view, request)

@@ -13,7 +13,7 @@ class SavedIds @Inject constructor(private val context: Context){
         sharedPreferences.edit().putString(key, value).apply()
     }
 
-    fun read(key: String? = null, desc: String? = null): String?{
-        return sharedPreferences.getString(key, desc)
+    fun read(key: String? = null, value: String? = null): String?{
+        return sharedPreferences.getString(key, value)
     }
 }

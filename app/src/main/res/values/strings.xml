@@ -2,4 +2,11 @@
     <string name="app_name">WebView</string>
     <string name="btn_start">Start</string>
     <string name="textview">TextView</string>
+    <string name="string_id">id</string>
+    <string name="string_uuid">uuid</string>
+
+    <string name="str_id_show">id = %s</string>
+    <string name="str_uuid_show">uuid = %s</string>
+    <string name="str_error_show">Page error: %s</string>
+
 </resources>
