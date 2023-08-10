@@ -88,14 +88,15 @@ class MainActivity : AppCompatActivity() {
 
             keyId = uri.getQueryParameter(Constants.ID)
             keyUuid = uri.getQueryParameter(Constants.UUID)
-            pref.saved(Constants.ID, keyId)
-            pref.saved(Constants.UUID, keyUuid)
+
+            if (keyId != null || keyUuid != null) {
+                pref.saved(Constants.ID, keyId)
+                pref.saved(Constants.UUID, keyUuid)
+            }
 
             binding.apply {
-                tvID.text = getString(R.string.str_id_show, keyId)
-                tvUuid.text = getString(R.string.str_uuid_show, keyUuid)
-                tvID.visible()
-                tvUuid.visible()
+                tvID.text = getString(R.string.str_id_show, pref.read(Constants.ID))
+                tvUuid.text = getString(R.string.str_uuid_show, pref.read(Constants.UUID))
             }
 
             return super.shouldOverrideUrlLoading(view, request)
